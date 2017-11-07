@@ -20,7 +20,7 @@ using namespace std;
 /*Prototypes*/
 void crop_image(Mat img);
 void bounds();
-int segment(string dir);
+int segment(string dir, int i);
 
 /*Global Variables*/
 int margin_l = 0;
@@ -30,17 +30,16 @@ Mat imgOriginal,imgCropped,imgFinal,imgThresholded;
 /*Principal function*/
  int main( int argc, char** argv )
  {
-  /*for(int i=1;i<=22; i++){
+  for(int i=1;i<=22; i++){
     ostringstream cad;
     cad << "bcdr_png/" << i << ".png";
-    segment(cad.str());
-  }*/
-  segment("bcdr_png/1.png");
+    segment(cad.str(),i);
+  }
   return 0;
 }
 
 
-int segment(string dir){
+int segment(string dir, int id){
   int iLowH = 0;
   int iHighH = 0;
   int iLowS = 0;
@@ -70,12 +69,14 @@ int segment(string dir){
 
   //Delimitar bordes
   bounds();
-
+  ostringstream cad;
+  cad << "out/" << id << ".png";
+  imwrite( cad.str(), imgFinal );
   //Mostrar imagenes
-  imshow("Thresholded Image", imgThresholded); //show the thresholded image
+  /*imshow("Thresholded Image", imgThresholded); //show the thresholded image
   imshow("Original", imgOriginal); //show the original image
   imshow("Cropped", imgCropped); //show the original image
-  imshow("Final", imgFinal); //show the original image
+  imshow("Final", imgFinal); //show the original image*/
   cvWaitKey(0);
   return 0;
 }
@@ -128,7 +129,6 @@ void bounds(){
     Scalar intensity = imgThresholded.at<uchar>(y, x);
     v=intensity[0];
     x--;
-    cout << v << endl;
   }
   int r = (x+w/2)/2;
   int mt = h/2;
