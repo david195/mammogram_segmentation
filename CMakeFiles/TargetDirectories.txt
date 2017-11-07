@@ -1,0 +1,1 @@
+/home/alumnos/Escritorio/Estancias/opencv/mammogram_segmentation/CMakeFiles/main.dir
